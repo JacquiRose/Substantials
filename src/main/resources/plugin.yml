@@ -1,0 +1,4 @@
+name: Substantials
+version: 1.0.0
+main: au.id.jrose.substantials.Main
+api-version: 1.18
