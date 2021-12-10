@@ -11,20 +11,20 @@ import java.util.UUID;
 public class PlayerListener implements Listener {
 
     @NotNull
-    private final Main main;
+    private final PlayerDataController playerDataController;
 
-    public PlayerListener(@NotNull Main main) {
-        this.main = main;
+    public PlayerListener(@NotNull PlayerDataController playerDataController) {
+        this.playerDataController = playerDataController;
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         UUID uuid = event.getPlayer().getUniqueId();
-        main.loadPlayerData(uuid);
+        playerDataController.loadPlayerData(uuid);
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        // dsadasd
+        //TODO: Remove player data once they quit so we don't waste space on memory.
     }
 }

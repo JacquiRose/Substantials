@@ -2,3 +2,19 @@ name: Substantials
 version: 1.0.0
 main: au.id.jrose.substantials.Main
 api-version: 1.18
+commands:
+  home:
+    description: Teleport to your home.
+    usage: /<command> [name]
+  sethome:
+    description: Sets the location of your home.
+    usage: /<command> [name]
+  delhome:
+    description: Deletes a saved home.
+    usage: /<command> [name]
+  nickname:
+    description: Sets your server nickname (displayed to other players).
+    usage: /<command> [clear/name]
+  homes:
+    description: List all homes.
+    usage: /<command>

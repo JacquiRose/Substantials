@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class PlayerData {
 
@@ -15,21 +16,38 @@ public class PlayerData {
     @NotNull
     private final Map<String, Location> homes;
 
+    /**
+     * If the player doesn't have an existing .yml file, use this constructor.
+     */
     public PlayerData() {
         nickname = null;
         homes = new HashMap<>();
     }
 
+    /**
+     * If the player has an existing .yml file, use this constructor.
+     *
+     * @param nickname The player's chosen nickname, otherwise {@code null} if they don't have one.
+     * @param homes    The player's homes, if any.
+     */
     public PlayerData(@Nullable String nickname, @NotNull Map<String, Location> homes) {
         this.nickname = nickname;
         this.homes = homes;
     }
 
+    /**
+     * @return The player's chosen nickname, otherwise {@code null} if they don't have one.
+     */
     @Nullable
     public String getNickname() {
         return nickname;
     }
 
+    /**
+     * Sets the player's chosen nickname.
+     *
+     * @param nickname The player's chosen nickname, otherwise {@code null} if they don't have one.
+     */
     public void setNickname(@Nullable String nickname) {
         this.nickname = nickname;
     }
@@ -44,12 +62,12 @@ public class PlayerData {
     }
 
     /**
-     * Adds a new home for this player.
+     * Sets a home for this player.
      *
      * @param homeName The name of the home.
      * @param location The {@link Location} of the home.
      */
-    public void addHome(@NotNull String homeName, @NotNull Location location) {
+    public void setHome(@NotNull String homeName, @NotNull Location location) {
         homes.put(homeName, location);
     }
 
@@ -60,5 +78,12 @@ public class PlayerData {
      */
     public void removeHome(@NotNull String homeName) {
         homes.remove(homeName);
+    }
+
+    /**
+     * @return The name(s) of the player's home(s).
+     */
+    public Set<String> getHomeNames() {
+        return homes.keySet();
     }
 }
