@@ -3,20 +3,18 @@ package au.id.jrose.substantials.commands;
 import au.id.jrose.substantials.PlayerDataController;
 import au.id.jrose.substantials.models.PlayerData;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class SetHomeCommandExecutor implements CommandExecutor {
+public class HomesCommandExecutor implements CommandExecutor {
 
     @NotNull
     private final PlayerDataController dataController;
 
-    public SetHomeCommandExecutor(@NotNull PlayerDataController dataController) {
+    public HomesCommandExecutor(@NotNull PlayerDataController dataController) {
         this.dataController = dataController;
     }
 
@@ -27,25 +25,16 @@ public class SetHomeCommandExecutor implements CommandExecutor {
             return true;
         }
 
-        if (args.length > 1) {
-            sender.sendMessage(ChatColor.RED + "Too many arguments.");
-            return false;
-        }
-
         PlayerData playerData = dataController.getPlayerData(player.getUniqueId());
+        String[] homeNames = playerData.getHomeNames().toArray(new String[0]);
 
-        if (playerData.getHomeNames().size() >= 4) {
-            sender.sendMessage(ChatColor.RED + "You cannot set more than 4 homes.");
-            return true;
+        StringBuilder message = new StringBuilder(ChatColor.YELLOW + String.format("Homes (%d): ", homeNames.length));
+        for (int i = 0; i < homeNames.length; i++) {
+            message.append(homeNames[i]);
+            message.append(i < homeNames.length - 1 ? ", " : "");
         }
 
-        String homeName = args.length == 1 ? args[0] : "home";
-        playerData.setHome(homeName, player.getLocation());
-
-        player.sendMessage(ChatColor.GREEN + "Home set!");
-        player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, 1F, 1F);
-
-        dataController.savePlayerData(player.getUniqueId());
+        sender.sendMessage(message.toString());
 
         return true;
     }

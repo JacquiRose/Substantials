@@ -19,12 +19,11 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        UUID uuid = event.getPlayer().getUniqueId();
-        playerDataController.loadPlayerData(uuid);
+        playerDataController.loadPlayerData(event.getPlayer());
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        //TODO: Remove player data once they quit so we don't waste space on memory.
+        playerDataController.removePlayerData(event.getPlayer().getUniqueId());
     }
 }

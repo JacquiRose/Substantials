@@ -2,10 +2,12 @@ package au.id.jrose.substantials;
 
 import au.id.jrose.substantials.models.PlayerData;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -56,12 +58,22 @@ public class PlayerDataController {
     }
 
     /**
-     * Loads the player's data from the .yml file (or, creates a new .yml if one doesn't already exist).
-     * The associated {@link PlayerData} is then stored in the {@link #playerDataMap}.
+     * Removes the loaded {@link PlayerData} from the {@link #playerDataMap}.
      *
      * @param uuid The player's {@link UUID}.
      */
-    public void loadPlayerData(@NotNull UUID uuid) {
+    public void removePlayerData(@NotNull UUID uuid) {
+        playerDataMap.remove(uuid);
+    }
+
+    /**
+     * Loads the player's data from the .yml file (or, creates a new .yml if one doesn't already exist).
+     * The associated {@link PlayerData} is then stored in the {@link #playerDataMap}.
+     *
+     * @param player The player.
+     */
+    public void loadPlayerData(@NotNull Player player) {
+        UUID uuid = player.getUniqueId();
         File playerDataFile = new File(dataFolder, uuid + ".yml");
 
         PlayerData playerData;
@@ -71,6 +83,10 @@ public class PlayerDataController {
             playerData = loadPlayerDataFromFile(playerDataFile);
         } else {
             playerData = new PlayerData();
+        }
+
+        if (playerData.getNickname() != null) {
+            player.setDisplayName(ChatColor.translateAlternateColorCodes('&', playerData.getNickname()) + ChatColor.RESET);
         }
 
         playerDataMap.put(uuid, playerData);
