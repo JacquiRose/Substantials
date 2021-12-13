@@ -113,7 +113,7 @@ public class PlayerDataController {
     @SuppressWarnings("ConstantConditions")
     @NotNull
     private Location loadLocation(@NotNull ConfigurationSection locationSection) throws IllegalArgumentException {
-        validateSection(locationSection, new String[]{"world", "x", "y", "z", "pitch", "yaw"});
+        validateSection(locationSection, new String[]{"world", "x", "y", "z", "yaw", "pitch"});
 
         String worldName = locationSection.getString("world");
         World world = Bukkit.getServer().getWorld(worldName);
@@ -123,10 +123,10 @@ public class PlayerDataController {
         double x = locationSection.getDouble("x");
         double y = locationSection.getDouble("y");
         double z = locationSection.getDouble("z");
-        float pitch = (float) locationSection.getDouble("pitch");
         float yaw = (float) locationSection.getDouble("yaw");
+        float pitch = (float) locationSection.getDouble("pitch");
 
-        return new Location(world, x, y, z, pitch, yaw);
+        return new Location(world, x, y, z, yaw, pitch);
     }
 
     /**
@@ -196,8 +196,8 @@ public class PlayerDataController {
             homeSection.set("x", home.getX());
             homeSection.set("y", home.getY());
             homeSection.set("z", home.getZ());
-            homeSection.set("pitch", home.getPitch());
             homeSection.set("yaw", home.getYaw());
+            homeSection.set("pitch", home.getPitch());
         }
 
         try {
