@@ -1,5 +1,6 @@
-package au.id.jrose.substantials;
+package au.id.jrose.substantials.listeners;
 
+import au.id.jrose.substantials.PlayerDataController;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;

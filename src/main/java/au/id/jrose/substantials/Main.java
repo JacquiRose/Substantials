@@ -1,7 +1,11 @@
 package au.id.jrose.substantials;
 
 import au.id.jrose.substantials.commands.*;
-import org.bukkit.command.Command;
+import au.id.jrose.substantials.listeners.PlayerListener;
+import au.id.jrose.substantials.listeners.combat.ExplosionParry;
+import au.id.jrose.substantials.listeners.combat.HugeDamage;
+import au.id.jrose.substantials.listeners.combat.Parry;
+import au.id.jrose.substantials.listeners.combat.Uppercut;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,6 +39,18 @@ public class Main extends JavaPlugin {
 
         PlayerListener playerListener = new PlayerListener(playerDataController);
         this.getServer().getPluginManager().registerEvents(playerListener, this);
+
+        HugeDamage hugeDamage = new HugeDamage(this);
+        this.getServer().getPluginManager().registerEvents(hugeDamage, this);
+
+        ExplosionParry explosionParry = new ExplosionParry(this);
+        this.getServer().getPluginManager().registerEvents(explosionParry, this);
+
+        Parry parry = new Parry(this);
+        this.getServer().getPluginManager().registerEvents(parry, this);
+
+        Uppercut uppercut = new Uppercut(this);
+        this.getServer().getPluginManager().registerEvents(uppercut, this);
 
         for (Player player : this.getServer().getOnlinePlayers()) {
             playerDataController.loadPlayerData(player);
