@@ -164,7 +164,9 @@ public class PlayerDataController {
         String nickname = yamlFile.contains("nickname") ? yamlFile.getString("nickname") : null;
         Map<String, Location> homesMap = loadPlayerHomes(yamlFile.getConfigurationSection("homes"));
 
-        return new PlayerData(nickname, homesMap);
+        boolean tpToggle = yamlFile.getBoolean("tptoggle");
+
+        return new PlayerData(nickname, homesMap, tpToggle);
     }
 
     /**
@@ -199,6 +201,8 @@ public class PlayerDataController {
             homeSection.set("yaw", home.getYaw());
             homeSection.set("pitch", home.getPitch());
         }
+
+        yamlFile.set("tptoggle", playerData.isTpToggle());
 
         try {
             yamlFile.save(playerDataFile);

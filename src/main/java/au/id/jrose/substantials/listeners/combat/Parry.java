@@ -45,7 +45,7 @@ public class Parry implements Listener {
 
         if (!player.isBlocking()) return;
 
-        parryMap.put(player.getUniqueId(), event.getFinalDamage());
+        parryMap.put(player.getUniqueId(), event.getDamage());
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -71,7 +71,7 @@ public class Parry implements Listener {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                                         TextComponent.fromLegacyText(ChatColor.GREEN + "** PARRY **"));
             entity.setVelocity(player.getLocation().getDirection().setY(0).normalize().multiply(5));
-            entity.damage(damage, player);
+            event.setDamage(event.getDamage() + damage);
         }
     }
 }

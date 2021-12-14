@@ -20,3 +20,21 @@ commands:
   homes:
     description: List all homes.
     usage: "§c/<command>"
+  tpask:
+    aliases:
+      - tpa
+    description: Request to teleport to a player.
+    usage: "§c/<command> [player]"
+  tpaccept:
+    aliases:
+      - tpyes
+    description: Accept a teleport request from a player.
+    usage: "§c/<command> [player]"
+  tpdeny:
+    aliases:
+      - tpno
+    description: Deny a teleport request from a player.
+    usage: "§c/<command> [player]"
+  tptoggle:
+    description: Toggle teleport requests.
+    usage: "§c/<command>"

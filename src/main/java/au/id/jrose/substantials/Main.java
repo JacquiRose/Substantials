@@ -37,6 +37,12 @@ public class Main extends JavaPlugin {
         NicknameCommandExecutor nicknameCommandExecutor = new NicknameCommandExecutor(playerDataController);
         this.getCommand("nickname").setExecutor(nicknameCommandExecutor);
 
+        TpAskCommandsExecutor tpAskCommandsExecutor = new TpAskCommandsExecutor(playerDataController);
+        this.getCommand("tpask").setExecutor(tpAskCommandsExecutor);
+        this.getCommand("tpaccept").setExecutor(tpAskCommandsExecutor);
+        this.getCommand("tpdeny").setExecutor(tpAskCommandsExecutor);
+        this.getCommand("tptoggle").setExecutor(tpAskCommandsExecutor);
+
         PlayerListener playerListener = new PlayerListener(playerDataController);
         this.getServer().getPluginManager().registerEvents(playerListener, this);
 

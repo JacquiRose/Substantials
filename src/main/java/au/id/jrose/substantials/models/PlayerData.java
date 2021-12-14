@@ -15,6 +15,7 @@ public class PlayerData {
     private String nickname;
     @NotNull
     private final Map<String, Location> homes;
+    private boolean tpToggle;
 
     /**
      * If the player doesn't have an existing .yml file, use this constructor.
@@ -22,6 +23,7 @@ public class PlayerData {
     public PlayerData() {
         nickname = null;
         homes = new HashMap<>();
+        tpToggle = false;
     }
 
     /**
@@ -30,9 +32,10 @@ public class PlayerData {
      * @param nickname The player's chosen nickname, otherwise {@code null} if they don't have one.
      * @param homes    The player's homes, if any.
      */
-    public PlayerData(@Nullable String nickname, @NotNull Map<String, Location> homes) {
+    public PlayerData(@Nullable String nickname, @NotNull Map<String, Location> homes, boolean tpToggle) {
         this.nickname = nickname;
         this.homes = homes;
+        this.tpToggle = tpToggle;
     }
 
     /**
@@ -85,5 +88,13 @@ public class PlayerData {
      */
     public Set<String> getHomeNames() {
         return homes.keySet();
+    }
+
+    public boolean isTpToggle() {
+        return tpToggle;
+    }
+
+    public void setTpToggle(boolean tpToggle) {
+        this.tpToggle = tpToggle;
     }
 }
