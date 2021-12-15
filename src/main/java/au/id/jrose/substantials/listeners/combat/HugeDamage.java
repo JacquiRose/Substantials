@@ -49,6 +49,7 @@ public class HugeDamage implements Listener {
         // Rage is reset if the player attacks without their fist.
         if (player.getInventory().getItemInMainHand().getType() != Material.AIR) {
             rageMap.remove(event.getDamager().getUniqueId());
+            return;
         }
 
         Location eye = ((LivingEntity) event.getEntity()).getEyeLocation();
@@ -64,6 +65,7 @@ public class HugeDamage implements Listener {
         }
 
         rageMap.remove(player.getUniqueId());
+        event.setDamage(event.getDamage() * 50);
         player.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, eye, 1);
         player.getWorld().playSound(eye, Sound.ENTITY_GENERIC_EXPLODE, 2F, 1.1F);
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR,

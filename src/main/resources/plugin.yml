@@ -37,4 +37,6 @@ commands:
     usage: "§c/<command> [player]"
   tptoggle:
     description: Toggle teleport requests.
+  showvillagers:
+    description: Reveals all villagers in a 100 block radius.
     usage: "§c/<command>"

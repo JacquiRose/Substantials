@@ -6,8 +6,12 @@ import au.id.jrose.substantials.listeners.combat.ExplosionParry;
 import au.id.jrose.substantials.listeners.combat.HugeDamage;
 import au.id.jrose.substantials.listeners.combat.Parry;
 import au.id.jrose.substantials.listeners.combat.Uppercut;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
@@ -43,6 +47,10 @@ public class Main extends JavaPlugin {
         this.getCommand("tpdeny").setExecutor(tpAskCommandsExecutor);
         this.getCommand("tptoggle").setExecutor(tpAskCommandsExecutor);
 
+        ShowVillagersCommandExecutor showVillagersCommandExecutor = new ShowVillagersCommandExecutor();
+        this.getCommand("showvillagers").setExecutor(showVillagersCommandExecutor);
+
+
         PlayerListener playerListener = new PlayerListener(playerDataController);
         this.getServer().getPluginManager().registerEvents(playerListener, this);
 
@@ -61,9 +69,21 @@ public class Main extends JavaPlugin {
         for (Player player : this.getServer().getOnlinePlayers()) {
             playerDataController.loadPlayerData(player);
         }
+
+        addEnchantedGoldenAppleRecipe();
     }
 
     @Override
     public void onDisable() {
+    }
+
+    private void addEnchantedGoldenAppleRecipe() {
+        ItemStack enchantedGoldenApple = new ItemStack(Material.ENCHANTED_GOLDEN_APPLE);
+        NamespacedKey key = new NamespacedKey(this, "substantials_enchanted_golden_apple");
+        ShapedRecipe recipe = new ShapedRecipe(key, enchantedGoldenApple);
+        recipe.shape("GGG", "GAG", "GGG");
+        recipe.setIngredient('G', Material.GOLD_BLOCK);
+        recipe.setIngredient('A', Material.APPLE);
+        this.getServer().addRecipe(recipe);
     }
 }

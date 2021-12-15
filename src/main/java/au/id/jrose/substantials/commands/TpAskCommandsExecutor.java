@@ -76,6 +76,18 @@ public class TpAskCommandsExecutor implements CommandExecutor {
 
         TeleportRequest request = new TeleportRequest(player.getUniqueId(), target.getUniqueId());
 
+        if (player.equals(target)) {
+            player.sendMessage(ChatColor.RED + "You cannot send a teleport request to yourself.");
+            return true;
+        }
+
+        PlayerData playerData = dataController.getPlayerData(target.getUniqueId());
+
+        if (playerData.isTpToggle()) {
+            player.sendMessage(ChatColor.RED + "This player is not receiving teleport requests at the moment.");
+            return true;
+        }
+
         if (teleportRequests.contains(request)) {
             player.sendMessage(ChatColor.RED + "You have already sent a teleport request to this player.");
             return true;
@@ -90,9 +102,9 @@ public class TpAskCommandsExecutor implements CommandExecutor {
         target.sendMessage(
                 String.format(
                         ChatColor.YELLOW + "Teleport request received from %s" + ChatColor.RESET + ChatColor.YELLOW +
-                        ".\n Type " + ChatColor.GOLD + "/tpaccept" + ChatColor.YELLOW + " to accept, otherwise type " +
-                        ChatColor.GOLD + "/tpdeny" + ChatColor.YELLOW + ".",
-                        target.getDisplayName()));
+                                ".\n Type " + ChatColor.GOLD + "/tpaccept" + ChatColor.YELLOW + " to accept, otherwise type " +
+                                ChatColor.GOLD + "/tpdeny" + ChatColor.YELLOW + ".",
+                        player.getDisplayName()));
 
         return true;
     }
@@ -114,35 +126,41 @@ public class TpAskCommandsExecutor implements CommandExecutor {
 
             for (TeleportRequest existingRequest : teleportRequests) {
                 if (existingRequest.target().equals(player.getUniqueId())) {
-                    target = Bukkit.getPlayer(existingRequest.sender());
-
                     if (!Bukkit.getOfflinePlayer(existingRequest.sender()).isOnline()) {
                         player.sendMessage(ChatColor.RED + "That player is no longer online.");
                         return true;
                     }
+
+                    target = Bukkit.getPlayer(existingRequest.sender());
                     break;
                 }
             }
+
+            if (target == null) {
+                player.sendMessage(ChatColor.RED + "You do not have any teleport requests.");
+                return true;
+            }
         }
 
-        assert target != null;
-        TeleportRequest request = new TeleportRequest(target.getUniqueId(), player.getUniqueId());
+        TeleportRequest teleportRequest = new TeleportRequest(target.getUniqueId(), player.getUniqueId());
 
-        if (teleportRequests.contains(request)) {
+        if (teleportRequests.contains(teleportRequest)) {
             if (response) {
                 target.sendMessage(String.format("%s" + ChatColor.YELLOW + " accepted your teleport request.",
-                                                 player.getDisplayName()));
+                        player.getDisplayName()));
                 player.sendMessage(String.format(
-                        ChatColor.YELLOW + "Teleport request from %s" + ChatColor.RESET + ChatColor.YELLOW + " denied.",
+                        ChatColor.YELLOW + "Teleport request from %s" + ChatColor.RESET + ChatColor.YELLOW + " accepted.",
                         target.getDisplayName()));
                 target.teleport(player);
             } else {
                 target.sendMessage(String.format("%s" + ChatColor.YELLOW + " denied your teleport request.",
-                                                 player.getDisplayName()));
+                        player.getDisplayName()));
                 player.sendMessage(String.format(
                         ChatColor.YELLOW + "Teleport request from %s" + ChatColor.RESET + ChatColor.YELLOW + " denied.",
                         target.getDisplayName()));
             }
+
+            teleportRequests.remove(teleportRequest);
         } else {
             player.sendMessage(ChatColor.RED + "You do not have a teleport request from this player.");
         }

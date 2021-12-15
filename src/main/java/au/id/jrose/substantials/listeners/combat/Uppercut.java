@@ -30,6 +30,8 @@ public class Uppercut implements Listener {
         if (!(event.getEntity() instanceof LivingEntity entity)) return;
         if (entity instanceof Player) return;
         if (player.getVelocity().getY() <= 0) return;
+        if (player.isSwimming()) return;
+        if (player.isFlying()) return;
 
         entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_PLAYER_ATTACK_CRIT, 1.25F, 1.25F);
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
